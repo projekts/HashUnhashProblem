@@ -11,7 +11,7 @@ Javascript Libraries used:
 
 Functionality:
 
--It demonstrates each Hashing algorithm is unique and Unhashing it can be difficult and wont work for other hashing algorithms. I wrote the Unhashing function.
+-It demonstrates each Hashing algorithm is unique.Unhashing it can be difficult and is specific and applicable only for that particular hashing algorithm. I wrote the Unhashing function in javascript.
 
 
 
