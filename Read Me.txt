@@ -1,0 +1,20 @@
+Project Name: Hash/Unhash problem in Javascript
+
+Requirements: 
+Please open the file with extension ".htm" with Internet explorer or other browser and ensure that javascript is not blocked
+
+
+Description:A Hash/Unhash problem for a set of characters entered by the user
+
+Javascript Libraries used:
+-Jquery
+
+Functionality:
+
+-It demonstrates each Hashing algorithm is unique and Unhashing it can be difficult and wont work for other hashing algorithms. I wrote the Unhashing function.
+
+
+
+
+
+

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HoneyFund Code</title>
+<!-- JQuery  include-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+<link media="all" href="importedstyles.css" rel="stylesheet" type="text/css" />
+
+
+<script type="text/javascript">
+
+function hash(strInput)
+	{
+		var nResult = 7;
+		var strKey = "acdfgilmnoprstuw";
+		for(var i = 0; i < strInput.length; i++)
+		{
+			var nIndex = strKey.indexOf(strInput[i]);
+			if(nIndex == -1)
+			{
+				nResult = -1;
+				break;
+			}
+			nResult = (nResult * 23 + nIndex);
+		}
+		if(nResult == -1)
+		{
+			return "The word should only contain letters in " + strKey;	
+		}
+		return nResult;
+	}
+
+
+function unhash(strInput)
+	{
+		var unHashCalc = strInput;
+		var modValue;
+		var resultValue = "";	
+		var error = false;
+		var splitString ;
+
+		var strKeyArray = ["a","c","d","f","g","i","l","m","n","o","p","r","s","t","u","w"];
+
+		//invalid input
+		if(unHashCalc < 161)
+		{
+			error = true;	
+			resultValue = "Invalid Input";	
+		}
+		else
+		{
+			while(unHashCalc != 7 )
+			{
+				modValue = unHashCalc % 23;
+
+				//Checking for Error if Mod value is greater than 15
+				if(modValue > 15)
+				{
+					error = true;
+					resultValue = "Invalid Input: Mod value is greater than 15";
+					break;
+				}
+				else
+				{
+					resultValue = resultValue + strKeyArray[modValue];
+				}
+
+				//subtracting the index of letter
+				unHashCalc = (unHashCalc- modValue);
+
+				//Checking for Error if Mod value is not zero after subtracting index
+				if(unHashCalc % 23 != 0 )
+				{
+					error = true;
+					resultValue = "Invalid Input: Mod value is not zero after subtracting index";
+					break;
+				}
+				else
+				{
+					//dividing to get to the next letter in the word
+					unHashCalc = (unHashCalc/23);
+				}
+
+				//Checking for Error if unHashCalc is less than 7
+				if(unHashCalc < 7)
+				{
+					error = true;
+					resultValue = "Invalid Input: unHashCalc is less than 7";
+					break;
+				}
+				
+				
+			}
+
+		}
+		
+		if(!error)
+		{
+			splitString = 	resultValue.split("");
+			resultValue = (splitString.reverse()).join("");
+		}
+		
+		return resultValue;
+	}
+
+
+var intHash = window.setInterval(function()
+{
+if(typeof window.jQuery === "undefined") return;
+window.clearInterval(intHash);
+
+$("#calculate-hash").on("click", function()
+{
+	
+	var nResult = hash($("#word").val());
+	$("#hash-value").text(nResult);
+	$("#hash-result").css({"display":"block"});
+	$("#correct-hash").css({"display":"none"});
+	if(nResult == 292681030017238)
+	{
+		$("#correct-hash").css({"display":"block"});
+	}
+});
+}, 500);
+
+
+
+
+
+var intHash1 = window.setInterval(function()
+{
+if(typeof window.jQuery === "undefined") return;
+window.clearInterval(intHash1);
+
+$("#calculate-unhash").on("click", function()
+{
+	
+
+	var nResult = unhash($("#hash").val());
+	$("#unhash-value").text(nResult);
+	$("#unhash-result").css({"display":"block"});
+	$("#correct-unhash").css({"display":"none"});
+	if(nResult == 292681030017238)
+	{
+		$("#correct-unhash").css({"display":"block"});
+	}
+});
+}, 500);
+
+var intHash2 = window.setInterval(function()
+{
+if(typeof window.jQuery === "undefined") return;
+window.clearInterval(intHash2);
+
+$("#calculate-both").on("click", function()
+{
+	var assertVal ;
+    assertVal = unhash(hash($("#bothHashUnhash").val()))==$("#bothHashUnhash").val();
+	console.assert(assertVal, 'Assert Failed', assertVal);
+	var nResult = unhash(hash($("#bothHashUnhash").val()));
+	$("#both-value").text(nResult);
+	$("#both-result").css({"display":"block"});
+	$("#correct-both").css({"display":"none"});
+	if(nResult == 292681030017238)
+	{
+		$("#correct-both").css({"display":"block"});
+	}
+});
+}, 500);
+
+</script>
+
+
+
+<link rel="stylesheet" type="text/css" href="myStyles.css">
+
+
+</head>
+<body>
+
+<div id="title" class="container" >
+<h2>Hash/UnHash Code Problem</h2>
+</div>
+
+<div class="container">
+ <h4><strong> Problem Statement</strong> </h4>
+<div id="main" class="clearfix">
+			<div class="wedding-planing clearfix">
+				<div class="container">
+					<div class="col-lg-12">
+						<div id="content-text" class="row">
+																				
+							<p>Write a JavaScript function <code>unhash(num)</code> to find a ten letter string of characters that contains only letters from:</p>
+							<p><code>acdfgilmnoprstuw</code></p>
+							<p>such that the <code>hash(the_string)</code> is:</p>
+							<p>--&gt; <strong><code>292681030017238</code></strong> &lt;--</p>
+							<p>if hash is defined by the following pseudo-code:</p>
+							<pre><code>Int64 hash(String s)
+{
+  Int64 hash = 7
+  String letters = "acdfgilmnoprstuw"
+  for(Int32 i = 0; i < s.length; i++)
+  {
+	hash = (hash * 23 + letters.indexOf(s[i]))
+  }
+  return hash
+}</code></pre>
+							<p>For example, if we were trying to find the eight letter string where <code>hash(the_string)</code> was <code>593846452632</code>, the answer would be <code>"tortilla"</code>. The following should also not fail.</p>
+							<pre><code>console.assert("tortilla" == unhash(hash("tortilla")));</code></pre>
+							<h4><strong>Want to know if your answer is right?</strong></h4>
+							<p>
+								<input type="text" id="word" value="tortilla" maxlength="10">
+								<button class="btn btn-default" id="calculate-hash">Calculate Hash</button>
+							</p>
+							<div id="hash-result" style="display:none;">
+								<p><strong>Computed Hash:</strong> <code id="hash-value"></code></p>
+								<p id="correct-hash" style="display:none;"><strong>That's the answer! </p>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+
+<!-- 
+<div id="original">
+ <h2>Provided Hashing Function</h2>
+ <div>Please enter the word to be hashed</div>
+ <input id="word" value="tortilla"  type="text" maxlength="10">
+ <button id="calculate-hash" class="btn btn-default">Calculate Hash</button>
+</div>
+<br>
+
+
+<div id="hash-result" style="display: block;">
+	<p>
+		<strong>Computed Hash:</strong>
+		<code id="hash-value">The word should only contain letters in acdfgilmnoprstuw</code>
+	</p>
+	<p id="correct-hash" style="display: none;">
+		<strong>
+		That's the answer!
+		<a class="btn btn-default btn-lg" href="https://docs.google.com/forms/d/1Y1WKr6Sb9-ttqq4OLJ7-Mj4bjtotGCaMMl86C8TdzPk/viewform" target="_blank">You should apply!</a>
+		</strong>
+	</p>
+</div>
+
+<br><br><hr>
+-->
+<hr>
+
+ <div id="Unhash"  class="container">
+ 		<p>
+ 				<h4><strong> My Code for UnHashing</strong></h4><br>
+ 		</p>
+ 		<p>
+ 		<div>Please enter the hash to be Unhashed</div>
+ 		<input id="hash" value="593846452632"  type="text">
+		<button id="calculate-unhash" class="btn btn-default">Calculate UnHash</button>
+		</p>
+
+
+		<div id="unhash-result" style="display: block;">
+		<p>
+			<strong>Computed Hash:</strong>
+			<code id="unhash-value">The word should only contain numbers</code>
+		</p>
+		<p id="correct-unhash" style="display: none;">
+
+		</p>
+		</div>
+</div>
+
+<hr>
+ <div id="both"  class="container">
+	<p>
+			<h4><strong> Testing both Hash and Unhash Functions together. Also using a console assert.</strong></h4><br>
+	</p>
+	<p>
+	<div>Running both Hash and unhash together on a keyword</div>
+	<input id="bothHashUnhash" value="tortilla"  type="text" maxlength="10">
+	<button id="calculate-both" class="btn btn-default">Calculate Both</button>
+	</p>
+
+
+	<div id="both-result" style="display: block;">
+		<p>
+			<strong>Computed Hash:</strong>
+			<code id="both-value">The word should only contain letters in acdfgilmnoprstuw</code>
+		</p>
+		<p id="correct-both" style="display: none;">
+
+		</p>
+	</div>
+</div>
+<br><br><br><br>
+
+
+</body>
+</html>
